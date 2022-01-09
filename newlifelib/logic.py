@@ -83,10 +83,12 @@ class LifeGrid:
     def __init__(self,
                  width: int,
                  height: int,
+                 birth_probability: float,
                  logger: Logger):
         self.logger = logger
         self.width = width
         self.height = height
+        self.birth_probability = birth_probability
         self.cells = []
         for iv in range(self.height):
             row = []
@@ -97,7 +99,8 @@ class LifeGrid:
     def fill_random(self):
         for iv in range(self.height):
             for ih in range(self.width):
-                self.cells[iv][ih].alive = bool(random.getrandbits(1))
+                rnd = random.random()
+                self.cells[iv][ih].alive = True if rnd < self.birth_probability else False
 
     def next_generation(self):
         for iv in range(self.height):

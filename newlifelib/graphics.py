@@ -19,7 +19,7 @@ class LifeWindow(QMainWindow):
         else:
             grid_width = args.width
             grid_height = args.height
-        self.life_grid = LifeGrid(grid_width, grid_height, logger)
+        self.life_grid = LifeGrid(grid_width, grid_height, args.birth_probability, logger)
         self.life_grid.fill_random()
         self.title = 'New Life'
         self.top = 0

@@ -54,6 +54,11 @@ def parse_command_line_args():
                         default=1,
                         type=int,
                         help='Life grid cell size')
+    parser.add_argument('-b',
+                        '--birth-probability',
+                        default=0.5,
+                        type=float,
+                        help='Probability of initial births of cells in [0, 1] float range')
     parser.add_argument('-p',
                         '--period-milliseconds',
                         default=1000,
