@@ -22,7 +22,7 @@ def main():
     life_window = newlifelib.graphics.LifeWindow(args, args.cell_size, logger)
     timer = QtCore.QTimer()
     timer.timeout.connect(timer_event)
-    timer.start(1000)
+    timer.start(args.period_milliseconds)
     return App.exec()
 
 
