@@ -43,25 +43,23 @@ def parse_command_line_args():
                         help='Enable maximized window')
     parser.add_argument('--width',
                         default=500,
+                        type=int,
                         help='Life grid width')
     parser.add_argument('--height',
                         default=500,
+                        type=int,
                         help='Life grid height')
     parser.add_argument('-c',
                         '--cell-size',
                         default=1,
+                        type=int,
                         help='Life grid cell size')
     parser.add_argument('-p',
-                        '--period',
-                        default=1,
-                        help='Time period between generations')
+                        '--period-milliseconds',
+                        default=1000,
+                        type=int,
+                        help='Time period between generations in milliseconds')
     args = parser.parse_args()
-    # TODO: Refactor
-    args.cell_size = int(args.cell_size)
-    args.width = int(args.width)
-    args.height = int(args.height)
-    args.period = int(args.period)
-    #
     return args
 
 
