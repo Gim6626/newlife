@@ -59,6 +59,16 @@ def parse_command_line_args():
                         default=0.5,
                         type=float,
                         help='Probability of initial births of cells in [0, 1] float range')
+    parser.add_argument('-l',
+                        '--click-birth-probability',
+                        default=0.5,
+                        type=float,
+                        help='Probability of births of cells by click in [0, 1] float range')
+    parser.add_argument('-r',
+                        '--click-birth-radius',
+                        default=50,
+                        type=float,
+                        help='Probability of births of cells by click in [0, 1] float range')
     parser.add_argument('-p',
                         '--period-milliseconds',
                         default=1000,

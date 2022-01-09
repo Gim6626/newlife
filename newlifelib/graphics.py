@@ -1,5 +1,6 @@
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtGui import QPainter, QPen
+from PyQt5 import QtGui
 from PyQt5.QtCore import Qt
 
 from newlifelib.logic import *
@@ -19,7 +20,12 @@ class LifeWindow(QMainWindow):
         else:
             grid_width = args.width
             grid_height = args.height
-        self.life_grid = LifeGrid(grid_width, grid_height, args.birth_probability, logger)
+        self.life_grid = LifeGrid(grid_width,
+                                  grid_height,
+                                  args.birth_probability,
+                                  args.click_birth_probability,
+                                  args.click_birth_radius,
+                                  logger)
         self.life_grid.fill_random()
         self.title = 'New Life'
         self.top = 0
@@ -42,6 +48,10 @@ class LifeWindow(QMainWindow):
                              self.life_grid.width * self.cell_size,
                              self.life_grid.height * self.cell_size)
             self.show()
+
+    def mousePressEvent(self, a0: QtGui.QMouseEvent) -> None:
+        self.life_grid.make_random_birth(int(a0.x() / self.cell_size),
+                                         int(a0.y() / self.cell_size))
 
     def paintEvent(self, event):
         painter = QPainter()

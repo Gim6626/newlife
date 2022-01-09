@@ -1,5 +1,6 @@
 import random
 from enum import Enum
+import math
 
 from .util import Logger
 
@@ -84,11 +85,15 @@ class LifeGrid:
                  width: int,
                  height: int,
                  birth_probability: float,
+                 click_birth_probability: float,
+                 click_birth_radius: int,
                  logger: Logger):
         self.logger = logger
         self.width = width
         self.height = height
         self.birth_probability = birth_probability
+        self.click_birth_probability = click_birth_probability
+        self.click_birth_radius = click_birth_radius
         self.cells = []
         for iv in range(self.height):
             row = []
@@ -101,6 +106,20 @@ class LifeGrid:
             for ih in range(self.width):
                 rnd = random.random()
                 self.cells[iv][ih].alive = True if rnd < self.birth_probability else False
+
+    def make_random_birth(self, x: int, y: int):
+        radius_v = self.click_birth_radius
+        radius_h = self.click_birth_radius
+        iv_from = int(y - radius_v if y - radius_v > 0 else 0)
+        iv_to = int(y + radius_v if y + radius_v < self.height - 1 else self.height - 1)
+        ih_from = int(x - radius_h if x - radius_h > 0 else 0)
+        ih_to = int(x + radius_h if x + radius_h < self.width - 1 else self.width- 1)
+        for iv in range(iv_from, iv_to + 1):
+            for ih in range(ih_from, ih_to + 1):
+                if math.fabs(ih - x)**2 / radius_h**2 + math.fabs(iv - y)**2 / radius_v**2 > 1:
+                    continue
+                rnd = random.random()
+                self.cells[iv][ih].alive = True if rnd < self.click_birth_probability else False
 
     def next_generation(self):
         for iv in range(self.height):
