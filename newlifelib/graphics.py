@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QMainWindow
+from PyQt5.QtWidgets import QMainWindow, QApplication
 from PyQt5.QtGui import QPainter, QPen
 from PyQt5 import QtGui
 from PyQt5.QtCore import Qt
@@ -15,8 +15,12 @@ class LifeWindow(QMainWindow):
         super().__init__()
         self.cell_size = cell_size
         if args.fullscreen or args.maximized:
-            grid_width = int(self.screen().size().width() / self.cell_size)
-            grid_height = int(self.screen().size().height() / self.cell_size)
+            if args.use_primary_screen:
+                geometry = QApplication.instance().primaryScreen().availableGeometry()
+            else:
+                geometry = self.screen().size()
+            grid_width = int(geometry.width() / self.cell_size)
+            grid_height = int(geometry.height() / self.cell_size)
         else:
             grid_width = args.width
             grid_height = args.height

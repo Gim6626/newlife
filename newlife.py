@@ -74,6 +74,10 @@ def parse_command_line_args():
                         default=1000,
                         type=int,
                         help='Time period between generations in milliseconds')
+    parser.add_argument('-u',
+                        '--use-primary-screen',
+                        action='store_true',
+                        help='Use primary screen instead of current')
     args = parser.parse_args()
     return args
 
