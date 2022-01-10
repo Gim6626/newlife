@@ -95,6 +95,7 @@ class LifeGrid:
         self.click_birth_probability = click_birth_probability
         self.click_birth_radius = click_birth_radius
         self.cells = []
+        self.generations_count = 0
         for iv in range(self.height):
             row = []
             for ih in range(self.width):
@@ -102,12 +103,20 @@ class LifeGrid:
             self.cells.append(row)
 
     def fill_random(self):
+        born_count = 0
         for iv in range(self.height):
             for ih in range(self.width):
                 rnd = random.random()
-                self.cells[iv][ih].alive = True if rnd < self.birth_probability else False
+                if rnd < self.birth_probability:
+                    self.cells[iv][ih].alive = True
+                    born_count += 1
+                else:
+                    self.cells[iv][ih].alive = False
+        self.logger.info(f'{born_count} cell(s) randomly born')
+        self.generations_count += 1
 
     def make_random_birth(self, x: int, y: int):
+        born_count = 0
         radius_v = self.click_birth_radius
         radius_h = self.click_birth_radius
         iv_from = int(y - radius_v if y - radius_v > 0 else 0)
@@ -119,9 +128,19 @@ class LifeGrid:
                 if math.fabs(ih - x)**2 / radius_h**2 + math.fabs(iv - y)**2 / radius_v**2 > 1:
                     continue
                 rnd = random.random()
-                self.cells[iv][ih].alive = True if rnd < self.click_birth_probability else False
+                if rnd < self.click_birth_probability:
+                    self.cells[iv][ih].alive = True
+                    born_count += 1
+                else:
+                    self.cells[iv][ih].alive = False
+        self.logger.info(f'{born_count} cell(s) randomly born by command')
 
     def next_generation(self):
+        total_alive_count = 0
+        survived_count = 0
+        died_count = 0
+        born_count = 0
+        total_ages = 0
         for iv in range(self.height):
             for ih in range(self.width):
                 current_cell = self.cells[iv][ih]
@@ -129,10 +148,17 @@ class LifeGrid:
                 alive_next = True if alive_neighbours in (2, 3) else False
                 if current_cell.alive and alive_next:
                     current_cell.live_more()
+                    total_alive_count += 1
+                    survived_count += 1
+                    total_ages += current_cell.age
                 elif current_cell.alive and not alive_next:
                     current_cell.kill()
+                    died_count += 1
                 elif not current_cell.alive and alive_next:
                     current_cell.give_birth()
+                    total_alive_count += 1
+                    born_count += 1
+                    total_ages += 1
                 elif not current_cell.alive and not alive_next:
                     pass
                 else:
@@ -141,3 +167,7 @@ class LifeGrid:
         for iv in range(self.height):
             for ih in range(self.width):
                 self.cells[iv][ih].next_generation()
+        average_age = total_ages / total_alive_count if total_alive_count > 0 else 0
+        alive_percent = total_alive_count / (self.width * self.height)
+        self.logger.info(f'Generation #{self.generations_count}: {born_count} born, {survived_count} survived, {died_count} died, {total_alive_count}/{self.width * self.height} ({alive_percent:.2f}%) total alive, {average_age:.3f} average age')
+        self.generations_count += 1
