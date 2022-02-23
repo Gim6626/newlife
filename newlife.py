@@ -27,7 +27,6 @@ def main():
 
 
 def parse_command_line_args():
-    # TODO: Add birth probability option
     parser = argparse.ArgumentParser(description='Conway\'s Game of Life with Qt frontend')
     parser.add_argument('-d',
                         '--debug',
