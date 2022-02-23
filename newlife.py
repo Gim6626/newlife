@@ -19,7 +19,10 @@ def main():
     logger = newlifelib.util.Logger(debug=args.debug)
     App = QApplication(sys.argv)
     global life_window
-    life_window = newlifelib.graphics.LifeWindow(args, args.cell_size, logger)
+    life_window = newlifelib.graphics.LifeWindow(args,
+                                                 args.cell_size,
+                                                 args.color_mode,
+                                                 logger)
     timer = QtCore.QTimer()
     timer.timeout.connect(timer_event)
     timer.start(args.period_milliseconds)
@@ -77,7 +80,12 @@ def parse_command_line_args():
                         '--use-primary-screen',
                         action='store_true',
                         help='Use primary screen instead of current')
+    parser.add_argument('-C',
+                        '--color-mode',
+                        choices=[cm.value for cm in newlifelib.graphics.ColorMode],
+                        help='Color mode')
     args = parser.parse_args()
+    args.color_mode = newlifelib.graphics.ColorMode(args.color_mode)
     return args
 
 

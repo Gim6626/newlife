@@ -1,3 +1,5 @@
+from enum import Enum
+
 from PyQt5.QtWidgets import QMainWindow, QApplication
 from PyQt5.QtGui import QPainter, QPen
 from PyQt5 import QtGui
@@ -6,14 +8,21 @@ from PyQt5.QtCore import Qt
 from newlifelib.logic import *
 
 
+class ColorMode(Enum):
+    MONOCHROME = 'monochrome'
+    COLOR = 'color'
+
+
 class LifeWindow(QMainWindow):
 
     def __init__(self,
                  args,
                  cell_size: int,
+                 color_mode: ColorMode,
                  logger):
         super().__init__()
         self.cell_size = cell_size
+        self.color_mode = color_mode
         if args.fullscreen or args.maximized:
             if args.use_primary_screen:
                 geometry = QApplication.instance().primaryScreen().availableGeometry()
@@ -63,18 +72,32 @@ class LifeWindow(QMainWindow):
         for iv in range(self.life_grid.height):
             for ih in range(self.life_grid.width):
                 state = self.life_grid.cells[iv][ih].state
-                if state == CellState.NEWBORN:
-                    color = Qt.green
-                elif state == CellState.GROWN:
-                    color = Qt.blue
-                elif state == CellState.MATURE:
-                    color = Qt.cyan
-                elif state == CellState.LONG_LIVING:
-                    color = Qt.yellow
-                elif state == CellState.DYING:
-                    color = Qt.red
-                elif state == CellState.NONE:
-                    color = Qt.black
+                if self.color_mode == ColorMode.MONOCHROME:
+                    if state in (CellState.NEWBORN,
+                                 CellState.GROWN,
+                                 CellState.MATURE,
+                                 CellState.LONG_LIVING):
+                        color = Qt.white
+                    elif state in (CellState.NONE,
+                                   CellState.DYING):
+                        color = Qt.black
+                    else:
+                        raise NotImplementedError
+                elif self.color_mode == ColorMode.COLOR:
+                    if state == CellState.NEWBORN:
+                        color = Qt.green
+                    elif state == CellState.GROWN:
+                        color = Qt.blue
+                    elif state == CellState.MATURE:
+                        color = Qt.cyan
+                    elif state == CellState.LONG_LIVING:
+                        color = Qt.yellow
+                    elif state == CellState.DYING:
+                        color = Qt.red
+                    elif state == CellState.NONE:
+                        color = Qt.black
+                    else:
+                        raise NotImplementedError
                 else:
                     raise NotImplementedError
                 painter.setPen(QPen(color, self.cell_size))
