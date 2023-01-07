@@ -77,8 +77,8 @@ class LifeWindow(QMainWindow):
         painter.setBrush(QBrush(Qt.black))
         painter.drawRect(0,
                          0,
-                         self.life_grid.height * self.cell_size,
-                         self.life_grid.width * self.cell_size)
+                         self.life_grid.width * self.cell_size,
+                         self.life_grid.height * self.cell_size)
         for iv in range(self.life_grid.height):
             for ih in range(self.life_grid.width):
                 current_cell = self.life_grid.cells[iv][ih]
