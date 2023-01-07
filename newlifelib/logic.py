@@ -48,7 +48,7 @@ class ClassicEvolutionStrategy(BasicEvolutionStrategy):
                      coord_vertical: int,
                      coord_horizontal: int):
         alive_neighbours = self.grid.alive_neighbours(coord_vertical, coord_horizontal)
-        if TypicalCell.will_survive_with_neighbours(alive_neighbours):
+        if TypicalCell.will_born_with_neighbours(alive_neighbours):
             return TypicalCell
         else:
             return None
@@ -137,6 +137,10 @@ class BasicCell:
 
 
 class TypicalCell(BasicCell):
+
+    @classmethod
+    def will_born_with_neighbours(cls, alive_neighbours):
+        return alive_neighbours == 3
 
     @classmethod
     def will_survive_with_neighbours(cls, alive_neighbours):

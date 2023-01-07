@@ -91,6 +91,8 @@ def parse_command_line_args():
     if args.evolution_strategy_class == 'classic':
         args.evolution_strategy_class = newlifelib.logic.ClassicEvolutionStrategy
     elif args.evolution_strategy_class == 'mutation':
+        # TODO: Implement `will_born_with_neighbours` method for mutation cells classes, see `logic.py`
+        raise Exception('"mutation" strategy is broken for now, sorry, please choose "classic"')
         args.evolution_strategy_class = newlifelib.logic.MutationEvolutionStrategy
     else:
         raise NotImplementedError
