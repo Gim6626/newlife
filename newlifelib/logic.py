@@ -105,21 +105,20 @@ class BasicCell:
         self.logger = self.grid.logger
         self.coord_vertical = coord_vertical
         self.coord_horizontal = coord_horizontal
-        self.will_die = False
         self.age = 0
 
     @property
     def state(self) -> CellState:
         if self.age == 0:
             return CellState.NEWBORN
-        elif self.age > 0 and not self.will_die:
+        elif self.age > 0 and self.will_survive:
             if self.age < 5:
                 return CellState.GROWN
             elif 5 <= self.age < 15:
                 return CellState.MATURE
             else:
                 return CellState.LONG_LIVING
-        elif self.will_die:
+        elif not self.will_survive:
             return CellState.DYING
         else:
             raise NotImplementedError
