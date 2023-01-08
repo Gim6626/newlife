@@ -41,16 +41,16 @@ def parse_command_line_args():
                         action='store_true',
                         help='Enable maximized window')
     parser.add_argument('--width',
-                        default=500,
+                        default=50,
                         type=int,
                         help='Life grid width')
     parser.add_argument('--height',
-                        default=500,
+                        default=50,
                         type=int,
                         help='Life grid height')
     parser.add_argument('-c',
                         '--cell-size',
-                        default=1,
+                        default=10,
                         type=int,
                         help='Life grid cell size')
     parser.add_argument('-b',
@@ -65,7 +65,7 @@ def parse_command_line_args():
                         help='Probability of births of cells by click in [0, 1] float range')
     parser.add_argument('-r',
                         '--click-birth-radius',
-                        default=50,
+                        default=10,
                         type=float,
                         help='Probability of births of cells by click in [0, 1] float range')
     parser.add_argument('-p',
