@@ -85,6 +85,7 @@ def parse_command_line_args():
     parser.add_argument('-C',
                         '--color-mode',
                         choices=[cm.value for cm in newlifelib.graphics.ColorMode],
+                        default=newlifelib.graphics.ColorMode.COLOR.value,
                         help='Color mode')
     args = parser.parse_args()
     args.color_mode = newlifelib.graphics.ColorMode(args.color_mode)
