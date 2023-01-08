@@ -239,9 +239,9 @@ class LifeGrid:
                     continue
                 rnd = random.random()
                 if rnd < self.click_birth_probability:
-                    if self.cells[iv][ih] is not None:
-                        self.cells[iv][ih] = self.evolution_strategy.born_new_cell(self, iv, ih)
-                    born_count += 1
+                    if self.cells[iv][ih] is None:
+                        self.cells[iv][ih] = self.evolution_strategy.born_new_cell(iv, ih)
+                        born_count += 1
         self.logger.info(f'{born_count} cell(s) randomly born by command')
 
     def alive_neighbours(self, coord_vertical, coord_horizontal):
