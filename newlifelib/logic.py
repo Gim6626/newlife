@@ -10,6 +10,11 @@ from typing import (
 from .util import Logger
 
 
+class EvolutionStrategy(Enum):
+    CLASSIC = 'classic'
+    MUTATION = 'mutation'
+
+
 class CellState(Enum):
     NEWBORN = 'newborn'
     GROWN = 'grown'

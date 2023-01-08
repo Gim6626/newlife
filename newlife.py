@@ -78,9 +78,9 @@ def parse_command_line_args():
                         action='store_true',
                         help='Use primary screen instead of current')
     parser.add_argument('-e',
-                        '--evolution-strategy-class',
-                        choices=('classic', 'mutation'),
-                        default='classic',
+                        '--evolution-strategy',
+                        choices=[es.value for es in newlifelib.logic.EvolutionStrategy],
+                        default=newlifelib.logic.EvolutionStrategy.CLASSIC.value,
                         help='Evolution strategy')
     parser.add_argument('-C',
                         '--color-mode',
@@ -89,12 +89,12 @@ def parse_command_line_args():
                         help='Color mode')
     args = parser.parse_args()
     args.color_mode = newlifelib.graphics.ColorMode(args.color_mode)
-    if args.evolution_strategy_class == 'classic':
-        args.evolution_strategy_class = newlifelib.logic.ClassicEvolutionStrategy
-    elif args.evolution_strategy_class == 'mutation':
+    if args.evolution_strategy == 'classic':
+        args.evolution_strategy = newlifelib.logic.ClassicEvolutionStrategy
+    elif args.evolution_strategy == 'mutation':
         # TODO: Implement `will_born_with_neighbours` method for mutation cells classes, see `logic.py`
         raise Exception('"mutation" strategy is broken for now, sorry, please choose "classic"')
-        args.evolution_strategy_class = newlifelib.logic.MutationEvolutionStrategy
+        args.evolution_strategy = newlifelib.logic.MutationEvolutionStrategy
     else:
         raise NotImplementedError
     return args

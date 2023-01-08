@@ -37,7 +37,7 @@ class LifeWindow(QMainWindow):
         else:
             grid_width = args.width
             grid_height = args.height
-        self.life_grid = LifeGrid(args.evolution_strategy_class,
+        self.life_grid = LifeGrid(args.evolution_strategy,
                                   grid_width,
                                   grid_height,
                                   args.birth_probability,
